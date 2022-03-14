@@ -97,7 +97,7 @@
         app:tabIndicatorFullWidth="false"
         app:tabSelectedTextColor="#FFF"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabTextColor="@color/fade_white" />
+        app:tabTextColor="@color/light_gray" />
 
     <TextView
         android:id="@+id/filter_tv"
