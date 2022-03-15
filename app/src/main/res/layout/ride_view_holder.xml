@@ -119,7 +119,7 @@
             app:layout_constraintTop_toBottomOf="@+id/station_path" />
 
         <TextView
-            android:id="@+id/distance"
+            android:id="@+id/distance_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
