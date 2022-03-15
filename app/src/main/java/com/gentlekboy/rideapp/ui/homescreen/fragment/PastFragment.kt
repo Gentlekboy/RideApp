@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.gentlekboy.rideapp.databinding.FragmentPastBinding
 import com.gentlekboy.rideapp.model.data.Status
 import com.gentlekboy.rideapp.ui.homescreen.adapter.RideAdapter
-import com.gentlekboy.rideapp.viewmodel.HomeViewModel
+import com.gentlekboy.rideapp.viewmodel.RideViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,7 +18,7 @@ class PastFragment : Fragment() {
     private var _binding: FragmentPastBinding? = null
     private val binding get() = _binding!!
     private val rideAdapter by lazy { RideAdapter(requireContext()) }
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val rideViewModel: RideViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +36,7 @@ class PastFragment : Fragment() {
 
     private fun setUpAdapter() {
         binding.pastRecyclerView.adapter = rideAdapter
-        homeViewModel.rideLivedata.observe(viewLifecycleOwner) { response ->
+        rideViewModel.rideLivedata.observe(viewLifecycleOwner) { response ->
             when (response.status) {
                 Status.SUCCESS -> {
                     val listOfRides = response.data

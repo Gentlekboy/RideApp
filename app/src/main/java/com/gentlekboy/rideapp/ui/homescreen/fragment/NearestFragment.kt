@@ -12,7 +12,8 @@ import com.gentlekboy.rideapp.ui.homescreen.adapter.RideAdapter
 import com.gentlekboy.rideapp.utils.getDistance
 import com.gentlekboy.rideapp.utils.getUserStationCode
 import com.gentlekboy.rideapp.utils.sortRides
-import com.gentlekboy.rideapp.viewmodel.HomeViewModel
+import com.gentlekboy.rideapp.viewmodel.RideViewModel
+import com.gentlekboy.rideapp.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +22,8 @@ class NearestFragment : Fragment() {
     private var _binding: FragmentNearestBinding? = null
     private val binding get() = _binding!!
     private val rideAdapter by lazy { RideAdapter(requireContext()) }
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val rideViewModel: RideViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,13 +44,13 @@ class NearestFragment : Fragment() {
      */
     private fun setUpAdapter() {
         binding.nearestRecyclerView.adapter = rideAdapter
-        homeViewModel.rideLivedata.observe(viewLifecycleOwner) { response ->
+        rideViewModel.rideLivedata.observe(viewLifecycleOwner) { response ->
             when (response.status) {
                 Status.SUCCESS -> {
                     val listOfRides = response.data
 
                     if (listOfRides != null) {
-                        val userStationCode = getUserStationCode(homeViewModel, viewLifecycleOwner)
+                        val userStationCode = getUserStationCode(userViewModel, viewLifecycleOwner)
                         getDistance(listOfRides, userStationCode)
                         sortRides(listOfRides, rideAdapter)
                     }

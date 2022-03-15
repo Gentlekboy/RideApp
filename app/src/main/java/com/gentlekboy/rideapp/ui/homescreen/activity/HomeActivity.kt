@@ -7,11 +7,11 @@ import com.bumptech.glide.Glide
 import com.gentlekboy.rideapp.databinding.ActivityHomeBinding
 import com.gentlekboy.rideapp.model.data.Status
 import com.gentlekboy.rideapp.ui.homescreen.ViewPagerAdapter
-import com.gentlekboy.rideapp.ui.homescreen.adapter.RideAdapter
 import com.gentlekboy.rideapp.ui.homescreen.fragment.NearestFragment
 import com.gentlekboy.rideapp.ui.homescreen.fragment.PastFragment
 import com.gentlekboy.rideapp.ui.homescreen.fragment.UpcomingFragment
-import com.gentlekboy.rideapp.viewmodel.HomeViewModel
+import com.gentlekboy.rideapp.viewmodel.RideViewModel
+import com.gentlekboy.rideapp.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +20,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var viewPagerAdapter: ViewPagerAdapter
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val rideViewModel: RideViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +35,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun displayUserInfo() {
-        homeViewModel.fetchUserData()
-        homeViewModel.userLivedata.observe(this) { response ->
+        userViewModel.fetchUserData()
+        userViewModel.userLivedata.observe(this) { response ->
             when (response.status) {
                 Status.SUCCESS -> {
                     val userInfo = response.data
@@ -57,7 +58,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun fetchRideData() {
-        homeViewModel.fetchRideData()
+        rideViewModel.fetchRideData()
     }
 
     private fun setUpTabLayout() {
