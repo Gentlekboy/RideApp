@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">RideApp</string>
     <string name="edvora">Edvora</string>
+    <string name="dhruv_singh">Dhruv Singh</string>
+    <string name="rides">Rides:</string>
+    <string name="filter_icon">Filter icon</string>
+    <string name="filters">Filters</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
