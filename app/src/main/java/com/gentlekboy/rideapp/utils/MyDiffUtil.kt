@@ -7,8 +7,8 @@ import com.gentlekboy.rideapp.model.data.RidesDataItem
  * DiffUtil class for recycler view adapters
  */
 class MyDiffUtil(
-    private val oldList: ArrayList<RidesDataItem>,
-    private val newList: ArrayList<RidesDataItem>
+    private val oldList: MutableList<RidesDataItem>,
+    private val newList: MutableList<RidesDataItem>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize() = oldList.size

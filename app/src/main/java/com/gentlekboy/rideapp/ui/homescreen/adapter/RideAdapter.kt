@@ -19,7 +19,7 @@ class RideAdapter(private val context: Context) :
     RecyclerView.Adapter<RideAdapter.RideViewHolder>() {
 
     //List holding rides currently being shown on the recycler view
-    private var oldRideList = ArrayList<RidesDataItem>()
+    private var oldRideList = mutableListOf<RidesDataItem>()
 
     //Create view holder class using view binding
     inner class RideViewHolder(val binding: RideViewHolderBinding) :
@@ -46,6 +46,7 @@ class RideAdapter(private val context: Context) :
                         context.getString(R.string.origin_station, origin_station_code)
                     stationPath.text = context.getString(R.string.station_path, station_path)
                     dateTv.text = context.getString(R.string.date, date)
+                    distanceTv.text = context.getString(R.string.distance, distance)
                     Glide.with(context).load(map_url).into(mapImg)
                 }
             }
@@ -58,7 +59,7 @@ class RideAdapter(private val context: Context) :
     /**
      * Adds a new list of movies to the adapter using the [DiffUtil] algorithm for optimization
      */
-    fun addRides(newRideList: ArrayList<RidesDataItem>) {
+    fun addRides(newRideList: MutableList<RidesDataItem>) {
         val diffUtilLists = MyDiffUtil(oldRideList, newRideList)
         val diffResult = DiffUtil.calculateDiff(diffUtilLists)
         oldRideList = newRideList
