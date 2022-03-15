@@ -11,5 +11,6 @@ data class RidesDataItem(
     val station_path: ArrayList<Int>,
     val date: String,
     val city: String,
-    val state: String
+    val state: String,
+    var distance: Int
 )
