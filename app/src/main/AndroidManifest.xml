@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gentlekboy.rideapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".app.EdvoraApp"
         android:allowBackup="true"
@@ -11,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RideApp">
         <activity
-            android:name=".ui.homescreen.HomeActivity"
+            android:name=".ui.homescreen.activity.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".ui.splashscreen.LaunchActivity"
