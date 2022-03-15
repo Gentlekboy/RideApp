@@ -6,7 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.gentlekboy.rideapp.databinding.ActivityLaunchBinding
-import com.gentlekboy.rideapp.ui.homescreen.HomeActivity
+import com.gentlekboy.rideapp.ui.homescreen.activity.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
