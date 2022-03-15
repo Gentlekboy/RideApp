@@ -2,7 +2,9 @@ package com.gentlekboy.rideapp.di
 
 import com.gentlekboy.rideapp.model.network.ApiInterface
 import com.gentlekboy.rideapp.repository.ride.RideRepository
+import com.gentlekboy.rideapp.repository.ride.RideRepositoryInterface
 import com.gentlekboy.rideapp.repository.user.UserRepository
+import com.gentlekboy.rideapp.repository.user.UserRepositoryInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,12 +23,16 @@ class RepositoryModule {
      */
     @Singleton
     @Provides
-    fun provideRideRepository(apiInterface: ApiInterface) = RideRepository(apiInterface)
+    fun provideRideRepository(apiInterface: ApiInterface): RideRepositoryInterface {
+        return RideRepository(apiInterface)
+    }
 
     /**
      * Provides an instance of [UserRepository] for dependency injection
      */
     @Singleton
     @Provides
-    fun provideUserRepository(apiInterface: ApiInterface) = UserRepository(apiInterface)
+    fun provideUserRepository(apiInterface: ApiInterface): UserRepositoryInterface {
+        return UserRepository(apiInterface)
+    }
 }
