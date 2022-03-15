@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gentlekboy.rideapp.model.data.Resource
-import com.gentlekboy.rideapp.model.data.RidesData
+import com.gentlekboy.rideapp.model.data.RidesDataItem
 import com.gentlekboy.rideapp.model.data.UserData
 import com.gentlekboy.rideapp.repository.HomeRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +18,9 @@ class HomeViewModel @Inject constructor(
     private val homeRepositoryInterface: HomeRepositoryInterface
 ) : ViewModel() {
 
-    private val _rideLivedata: MutableLiveData<Resource<RidesData>> = MutableLiveData()
-    val rideLivedata: LiveData<Resource<RidesData>> = _rideLivedata
+    private val _rideLivedata: MutableLiveData<Resource<ArrayList<RidesDataItem>>> =
+        MutableLiveData()
+    val rideLivedata: LiveData<Resource<ArrayList<RidesDataItem>>> = _rideLivedata
 
     fun fetchRideData() {
         _rideLivedata.postValue(Resource.loading())
@@ -54,7 +55,7 @@ class HomeViewModel @Inject constructor(
             val userData = homeRepositoryInterface.fetchUserData()
 
             try {
-                when(userData.isSuccessful) {
+                when (userData.isSuccessful) {
                     true -> _userLivedata.postValue(Resource.success(userData.body(), "Successful"))
                     else -> _userLivedata.postValue(Resource.error(userData.message()))
                 }

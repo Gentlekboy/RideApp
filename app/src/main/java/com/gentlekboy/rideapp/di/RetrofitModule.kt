@@ -2,6 +2,8 @@ package com.gentlekboy.rideapp.di
 
 import com.gentlekboy.rideapp.model.network.ApiInterface
 import com.gentlekboy.rideapp.utils.BASE_URL
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,19 +22,27 @@ import javax.inject.Singleton
 class RetrofitModule {
 
     /**
-     * Provides an instance of [Retrofit]
+     * Provides an instance of [Gson]
      */
     @Singleton
     @Provides
-    fun provideRetrofit(): Retrofit {
+    fun provideGson(): Gson {
+        return GsonBuilder().create()
+    }
+
+    /**
+     * Provides an instance of [Retrofit.Builder]
+     */
+    @Singleton
+    @Provides
+    fun provideRetrofit(gson: Gson): Retrofit.Builder {
         val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val okHttpClient = OkHttpClient.Builder().addInterceptor(interceptor)
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient.build())
-            .build()
     }
 
     /**
@@ -40,7 +50,7 @@ class RetrofitModule {
      */
     @Singleton
     @Provides
-    fun provideApiInterface(): ApiInterface {
-        return provideRetrofit().create(ApiInterface::class.java)
+    fun provideApiInterface(retrofit: Retrofit.Builder): ApiInterface {
+        return retrofit.build().create(ApiInterface::class.java)
     }
 }

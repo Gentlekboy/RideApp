@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    tools:context=".ui.homescreen.HomeActivity">
+    tools:context=".ui.homescreen.activity.HomeActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -26,6 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
+                android:includeFontPadding="false"
                 android:text="@string/edvora"
                 android:textColor="@color/white"
                 android:textSize="32sp"
@@ -49,7 +50,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/inter_regular"
+                android:maxWidth="200dp"
                 android:text="@string/dhruv_singh"
+                android:textAlignment="textEnd"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/user_image"
@@ -86,8 +89,6 @@
         android:id="@+id/tab_layout"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:background="@color/light_black"
         app:layout_constraintBottom_toBottomOf="@+id/ride_tv"
         app:layout_constraintEnd_toStartOf="@+id/filter_icon"
