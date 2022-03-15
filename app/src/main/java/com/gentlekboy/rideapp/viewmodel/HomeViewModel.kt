@@ -22,6 +22,9 @@ class HomeViewModel @Inject constructor(
         MutableLiveData()
     val rideLivedata: LiveData<Resource<ArrayList<RidesDataItem>>> = _rideLivedata
 
+    /**
+     * Fetch ride data from the server via the repository
+     */
     fun fetchRideData() {
         _rideLivedata.postValue(Resource.loading())
 
@@ -48,6 +51,9 @@ class HomeViewModel @Inject constructor(
     private val _userLivedata: MutableLiveData<Resource<UserData>> = MutableLiveData()
     val userLivedata: LiveData<Resource<UserData>> = _userLivedata
 
+    /**
+     * Fetch user data from the server via the repository
+     */
     fun fetchUserData() {
         _userLivedata.postValue(Resource.loading())
 
