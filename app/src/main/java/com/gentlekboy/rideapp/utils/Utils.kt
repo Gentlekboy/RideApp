@@ -4,6 +4,8 @@ import androidx.lifecycle.LifecycleOwner
 import com.gentlekboy.rideapp.model.data.RidesDataItem
 import com.gentlekboy.rideapp.ui.homescreen.adapter.RideAdapter
 import com.gentlekboy.rideapp.viewmodel.UserViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.absoluteValue
 
 /**
@@ -41,4 +43,25 @@ fun getDistance(listOfRides: ArrayList<RidesDataItem>, userStationCode: Int) {
 fun sortRides(listOfRides: ArrayList<RidesDataItem>, rideAdapter: RideAdapter) {
     val sortedListByNearest = listOfRides.sortedWith(compareBy { it.distance }).toMutableList()
     rideAdapter.addRides(sortedListByNearest)
+}
+
+fun getAllPastRides(listOfRides: ArrayList<RidesDataItem>, rideAdapter: RideAdapter) {
+    val listOfPastRides = arrayListOf<RidesDataItem>()
+
+    listOfRides.forEach { ride ->
+        val simpleDateFormat = SimpleDateFormat("mm/dd/yyyy hh:mm a", Locale.ENGLISH)
+        simpleDateFormat.timeZone = TimeZone.getTimeZone("GMT+1:00")
+        val currentTime = simpleDateFormat.format(Calendar.getInstance().time)
+
+        if (simpleDateFormat.parse(ride.date)!!.time - simpleDateFormat.parse(currentTime)!!.time < 0) {
+            listOfPastRides.add(ride)
+        }
+    }
+
+    sortRidesByDate(listOfPastRides, rideAdapter)
+}
+
+fun sortRidesByDate(listOfRidesByDate: ArrayList<RidesDataItem>, rideAdapter: RideAdapter) {
+    val sortedListByPast = listOfRidesByDate.sortedWith(compareBy { it.date }).toMutableList()
+    rideAdapter.addRides(sortedListByPast)
 }
