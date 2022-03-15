@@ -6,16 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gentlekboy.rideapp.model.data.Resource
 import com.gentlekboy.rideapp.model.data.RidesDataItem
-import com.gentlekboy.rideapp.model.data.UserData
-import com.gentlekboy.rideapp.repository.HomeRepositoryInterface
+import com.gentlekboy.rideapp.repository.ride.RideRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val homeRepositoryInterface: HomeRepositoryInterface
+class RideViewModel @Inject constructor(
+    private val rideRepositoryInterface: RideRepositoryInterface
 ) : ViewModel() {
 
     private val _rideLivedata: MutableLiveData<Resource<ArrayList<RidesDataItem>>> =
@@ -30,7 +29,7 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val ridesData = homeRepositoryInterface.fetchRideData()
+                val ridesData = rideRepositoryInterface.fetchRideData()
 
                 when (ridesData.isSuccessful) {
                     true -> _rideLivedata.postValue(
@@ -44,30 +43,6 @@ class HomeViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 _rideLivedata.postValue(Resource.error("Something went wrong"))
-            }
-        }
-    }
-
-    private val _userLivedata: MutableLiveData<Resource<UserData>> = MutableLiveData()
-    val userLivedata: LiveData<Resource<UserData>> = _userLivedata
-
-    /**
-     * Fetch user data from the server via the repository
-     */
-    fun fetchUserData() {
-        _userLivedata.postValue(Resource.loading())
-
-        viewModelScope.launch(Dispatchers.IO) {
-            val userData = homeRepositoryInterface.fetchUserData()
-
-            try {
-                when (userData.isSuccessful) {
-                    true -> _userLivedata.postValue(Resource.success(userData.body(), "Successful"))
-                    else -> _userLivedata.postValue(Resource.error(userData.message()))
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _userLivedata.postValue(Resource.error("Something went wrong"))
             }
         }
     }

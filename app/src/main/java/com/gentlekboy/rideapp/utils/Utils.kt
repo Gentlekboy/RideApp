@@ -3,16 +3,16 @@ package com.gentlekboy.rideapp.utils
 import androidx.lifecycle.LifecycleOwner
 import com.gentlekboy.rideapp.model.data.RidesDataItem
 import com.gentlekboy.rideapp.ui.homescreen.adapter.RideAdapter
-import com.gentlekboy.rideapp.viewmodel.HomeViewModel
+import com.gentlekboy.rideapp.viewmodel.UserViewModel
 import kotlin.math.absoluteValue
 
 /**
  * Get the current user's station code
  */
-fun getUserStationCode(homeViewModel: HomeViewModel, viewLifecycleOwner: LifecycleOwner): Int {
+fun getUserStationCode(userViewModel: UserViewModel, viewLifecycleOwner: LifecycleOwner): Int {
     var userStationCode = 0
 
-    homeViewModel.userLivedata.observe(viewLifecycleOwner) {
+    userViewModel.userLivedata.observe(viewLifecycleOwner) {
         if (it.data != null) {
             userStationCode = it.data.station_code
         }
