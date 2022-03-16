@@ -1,10 +1,14 @@
 package com.gentlekboy.rideapp.utils
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import com.gentlekboy.rideapp.model.data.RidesDataItem
 import com.gentlekboy.rideapp.ui.homescreen.adapter.RideAdapter
 import com.gentlekboy.rideapp.viewmodel.UserViewModel
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.absoluteValue
 
@@ -45,22 +49,51 @@ fun sortRides(listOfRides: ArrayList<RidesDataItem>, rideAdapter: RideAdapter) {
     rideAdapter.addRides(sortedListByNearest)
 }
 
-fun getAllPastRides(listOfRides: ArrayList<RidesDataItem>, rideAdapter: RideAdapter) {
+/**
+ * Gets all rides and sorts it by dates, from current to previous
+ * @return returns an [Int] which is the number of past rides
+ */
+fun getAllPastRides(listOfRides: ArrayList<RidesDataItem>, rideAdapter: RideAdapter): Int {
     val listOfPastRides = arrayListOf<RidesDataItem>()
 
     listOfRides.forEach { ride ->
-        val simpleDateFormat = SimpleDateFormat("mm/dd/yyyy hh:mm a", Locale.ENGLISH)
+        val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm a")
         simpleDateFormat.timeZone = TimeZone.getTimeZone("GMT+1:00")
-        val currentTime = simpleDateFormat.format(Calendar.getInstance().time)
+        val currentTime = simpleDateFormat.format(Date())
 
-        if (simpleDateFormat.parse(ride.date)!!.time - simpleDateFormat.parse(currentTime)!!.time < 0) {
+        if (simpleDateFormat.parse(ride.date)!!.time < simpleDateFormat.parse(currentTime)!!.time) {
             listOfPastRides.add(ride)
         }
     }
 
     sortRidesByDate(listOfPastRides, rideAdapter)
+    return listOfPastRides.size
 }
 
+/**
+ * Gets all rides and sorts it by dates, from current to future/upcoming
+ * @return returns an [Int] which is the number of upcoming rides
+ */
+fun getAllUpcomingRides(listOfRides: ArrayList<RidesDataItem>, rideAdapter: RideAdapter): Int {
+    val listOfUpcomingRides = arrayListOf<RidesDataItem>()
+
+    listOfRides.forEach { ride ->
+        val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm a")
+        simpleDateFormat.timeZone = TimeZone.getTimeZone("GMT+1:00")
+        val currentTime = simpleDateFormat.format(Date())
+
+        if (simpleDateFormat.parse(ride.date)!!.time > simpleDateFormat.parse(currentTime)!!.time) {
+            listOfUpcomingRides.add(ride)
+        }
+    }
+
+    sortRidesByDate(listOfUpcomingRides, rideAdapter)
+    return listOfUpcomingRides.size
+}
+
+/**
+ * Sorts a ride list by date
+ */
 fun sortRidesByDate(listOfRidesByDate: ArrayList<RidesDataItem>, rideAdapter: RideAdapter) {
     val sortedListByPast = listOfRidesByDate.sortedWith(compareBy { it.date }).toMutableList()
     rideAdapter.addRides(sortedListByPast)

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.gentlekboy.rideapp.databinding.FragmentPastBinding
 import com.gentlekboy.rideapp.model.data.Status
+import com.gentlekboy.rideapp.ui.homescreen.activity.HomeActivity
 import com.gentlekboy.rideapp.ui.homescreen.adapter.RideAdapter
 import com.gentlekboy.rideapp.utils.getAllPastRides
 import com.gentlekboy.rideapp.utils.getDistance
@@ -49,7 +50,10 @@ class PastFragment : Fragment() {
                     if (listOfRides != null) {
                         val userStationCode = getUserStationCode(userViewModel, viewLifecycleOwner)
                         getDistance(listOfRides, userStationCode)
-                        getAllPastRides(listOfRides, rideAdapter)
+                        val size = getAllPastRides(listOfRides, rideAdapter)
+
+                        val homeActivity = (requireActivity() as HomeActivity).bind
+                        homeActivity.tabLayout.getTabAt(2)?.text = "Past \n ($size)"
                     }
                 }
                 Status.LOADING -> {}
