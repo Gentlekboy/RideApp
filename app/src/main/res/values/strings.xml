@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">RideApp</string>
+    <string name="edvora">Edvora</string>
+    <string name="dhruv_singh">Dhruv Singh</string>
+    <string name="rides">Rides:</string>
+    <string name="filter_icon">Filter icon</string>
+    <string name="filters">Filters</string>
+    <string name="city_name">City Name</string>
+    <string name="state_name">State Name</string>
+    <string name="ride_id">Ride Id : %1$d</string>
+    <string name="origin_station">Origin Station : %1$d</string>
+    <string name="station_path">station_path : %1$s</string>
+    <string name="date">Date : %1$s</string>
+    <string name="distance">Distance : %1$d</string>
+    <string name="map_image">Map image</string>
 </resources>
