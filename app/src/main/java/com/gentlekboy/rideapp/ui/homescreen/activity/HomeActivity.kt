@@ -19,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
+    val bind get() = binding
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     private val rideViewModel: RideViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()

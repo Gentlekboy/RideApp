@@ -8,8 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.gentlekboy.rideapp.databinding.FragmentUpcomingBinding
 import com.gentlekboy.rideapp.model.data.Status
+import com.gentlekboy.rideapp.ui.homescreen.activity.HomeActivity
 import com.gentlekboy.rideapp.ui.homescreen.adapter.RideAdapter
+import com.gentlekboy.rideapp.utils.getAllPastRides
+import com.gentlekboy.rideapp.utils.getAllUpcomingRides
+import com.gentlekboy.rideapp.utils.getDistance
+import com.gentlekboy.rideapp.utils.getUserStationCode
 import com.gentlekboy.rideapp.viewmodel.RideViewModel
+import com.gentlekboy.rideapp.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +25,7 @@ class UpcomingFragment : Fragment() {
     private val binding get() = _binding!!
     private val rideAdapter by lazy { RideAdapter(requireContext()) }
     private val rideViewModel: RideViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,11 +49,17 @@ class UpcomingFragment : Fragment() {
                     val listOfRides = response.data
 
                     if (listOfRides != null) {
-                        rideAdapter.addRides(listOfRides)
+                        val userStationCode = getUserStationCode(userViewModel, viewLifecycleOwner)
+                        getDistance(listOfRides, userStationCode)
+                        val size = getAllUpcomingRides(listOfRides, rideAdapter)
+
+                        val homeActivity = (requireActivity() as HomeActivity).bind
+                        homeActivity.tabLayout.getTabAt(1)?.text = "Upcoming \n ($size)"
                     }
                 }
-                else -> {
-                    Snackbar.make(binding.root, "Check upcoming fragment", Snackbar.LENGTH_LONG)
+                Status.LOADING -> {}
+                Status.ERROR -> {
+                    Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_LONG)
                         .show()
                 }
             }
